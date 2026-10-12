@@ -1,0 +1,32 @@
+# MySQL 8.0 for the Board Game Cafe project.
+#   docker compose up -d        start (first start initialises the volume, ~30 s)
+#   docker compose down         stop (data stays in the named volume)
+#   docker compose down -v      stop and delete the data
+# The root password comes from DB_PASSWORD in .env.
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: boardgame_cafe_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      MYSQL_ROOT_HOST: "%"
+      TZ: Asia/Kolkata
+    command:
+      - --event-scheduler=ON
+      - --log-bin-trust-function-creators=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+05:30
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  mysql_data:
