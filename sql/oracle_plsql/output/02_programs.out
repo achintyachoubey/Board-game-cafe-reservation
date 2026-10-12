@@ -1,0 +1,31 @@
+
+Function created.
+
+
+Function created.
+
+
+Procedure created.
+
+
+Trigger created.
+
+
+Trigger created.
+
+
+Procedure created.
+
+No errors.
+
+OBJECT_NAME		 OBJECT_TYPE		 STATUS
+------------------------ ----------------------- -------
+FN_CUSTOMER_AGE 	 FUNCTION		 VALID
+FN_CUSTOMER_BALANCE	 FUNCTION		 VALID
+SP_CREATE_RESERVATION	 PROCEDURE		 VALID
+SP_FLAG_SUSPENSIONS	 PROCEDURE		 VALID
+TRG_RR_CAPACITY 	 TRIGGER		 VALID
+TRG_RR_STATEMENT_LOG	 TRIGGER		 VALID
+
+6 rows selected.
+

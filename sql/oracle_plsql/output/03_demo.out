@@ -1,0 +1,53 @@
+trg_rr_statement_log: one INSERT statement finished on Rentals_Reservations
+
+=== fn_customer_age ===
+
+CUSTOMER_ID FIRST_NAME		AGE
+----------- ------------ ----------
+	  1 Aarav		 29
+	  2 Manish		 47
+	  3 Karan		 33
+=== fn_customer_balance ===
+
+CUSTOMER_ID FIRST_NAME	    BALANCE
+----------- ------------ ----------
+	  1 Aarav		  0
+	  2 Manish		  0
+	  3 Karan	       2520
+=== sp_create_reservation: a valid booking (Aarav, 4 people at MH-01, in 3 days) ===
+trg_rr_statement_log: one INSERT statement finished on Rentals_Reservations
+created booking 2
+=== BR-01 from the row trigger: party of 6 at a 4-seat table ===
+refused: ORA-20001: BR-01: party size exceeds table seating capacity
+=== BR-01: inactive table ===
+refused: ORA-20001: BR-01: table is out of service
+=== BR-13: suspended member / member owing more than Rs 500 ===
+refused: ORA-20013: BR-13: customer account is not active
+refused: ORA-20013: BR-13: outstanding balance above Rs 500
+=== BR-14: 15 days ahead / started 2 hours ago ===
+refused: ORA-20014: BR-14: bookings open only 14 days ahead
+refused: ORA-20014: BR-14: booking cannot start in the past
+=== Bookings now (FETCH FIRST n ROWS ONLY is Oracle's LIMIT n) ===
+
+BOOKING_ID CUSTOMER_ID	 TABLE_ID BOOKING_TY PARTY_SIZE STATUS	   TOTAL_AMOUNT
+---------- ----------- ---------- ---------- ---------- ---------- ------------
+	 1	     3		2 Dine_In	      6 Completed	   2520
+	 2	     1		1 Dine_In	      4 Reserved	      0
+=== sp_flag_suspensions (cursor FOR loop): Karan owes > 2000 -> Suspended ===
+
+CUSTOMER_ID FIRST_NAME	 STATUS        BALANCE
+----------- ------------ ---------- ----------
+	  1 Aarav	 Active 	     0
+	  2 Manish	 Suspended	     0
+	  3 Karan	 Active 	  2520
+
+CUSTOMER_ID FIRST_NAME	 STATUS        BALANCE
+----------- ------------ ---------- ----------
+	  1 Aarav	 Active 	     0
+	  2 Manish	 Active 	     0
+	  3 Karan	 Suspended	  2520
+=== Explicit cursor with OPEN / FETCH / EXIT WHEN %NOTFOUND / CLOSE ===
+Aarav	  Active
+Manish	  Active
+Karan	  Suspended
+3 rows fetched
